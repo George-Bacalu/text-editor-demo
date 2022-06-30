@@ -71,14 +71,10 @@ public class CustomJMenuBar extends JMenuBar implements ActionListener {
       else if (e.getSource() == cutItem) textArea.cut();
       else if (e.getSource() == copyItem) textArea.copy();
       else if (e.getSource() == pasteItem) textArea.paste();
-      else if (e.getSource() == undoItem) undo();
-      else if (e.getSource() == redoItem) redo();
+      else if (e.getSource() == undoItem) { undoAction = new UndoAction(); editMenu.add(undoAction); }
+      else if (e.getSource() == redoItem) { redoAction = new RedoAction(); editMenu.add(redoAction); }
       else if (e.getSource() == aboutItem) JOptionPane.showMessageDialog(textEditor, "Developed by George Bacalu", "Custom Text Editor", JOptionPane.INFORMATION_MESSAGE);
    }
-
-   private void undo() { undoAction = new UndoAction(); editMenu.add(undoAction); }
-
-   private void redo() { redoAction = new RedoAction(); editMenu.add(redoAction); }
 
    private void getNewFile() {
       if (JOptionPane.showConfirmDialog(null, "Do you want to save modification made to " + fileName + "?", "Save modifications", JOptionPane.YES_NO_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
@@ -104,9 +100,7 @@ public class CustomJMenuBar extends JMenuBar implements ActionListener {
                while ((line = reader.readLine()) != null) textArea.append(line + "\n");
             }
             reader.close();
-         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "Error at file opening!", ex.getMessage(), JOptionPane.WARNING_MESSAGE);
-         }
+         } catch (IOException ex) { JOptionPane.showMessageDialog(null, "Error at file opening!", ex.getMessage(), JOptionPane.WARNING_MESSAGE); }
       }
    }
 
@@ -121,9 +115,7 @@ public class CustomJMenuBar extends JMenuBar implements ActionListener {
             writer.println(textArea.getText());
             writer.close();
             isChanged = false;
-         } catch (FileNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error at file writing!", ex.getMessage(), JOptionPane.WARNING_MESSAGE);
-         }
+         } catch (FileNotFoundException ex) { JOptionPane.showMessageDialog(null, "Error at file writing!", ex.getMessage(), JOptionPane.WARNING_MESSAGE); }
       }
    }
 

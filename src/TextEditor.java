@@ -23,13 +23,29 @@ public class TextEditor extends JFrame {
       scrollPane.setPreferredSize(new Dimension(450, 450));
       scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+      Login login = new Login(this, textArea, scrollPane);
+
       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       this.setSize(500, 600);
       this.setTitle(isChanged ? "*" : "" + fileName + " - Custom Text Editor");
       this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+      this.add(login);
       this.setJMenuBar(new CustomJMenuBar(this, textArea, fileName, isChanged));
       this.add(new EditorFunctionsJPanel(textArea));
       this.add(scrollPane);
+      if(login.isLoggedIn()) {
+         this.dispose();
+         JFrame newFrame = new JFrame();
+         newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         newFrame.setSize(500, 600);
+         newFrame.setTitle("Untitled - Custom Text Editor");
+         this.setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+         this.setJMenuBar(new CustomJMenuBar(this, textArea, fileName, isChanged));
+         this.add(new EditorFunctionsJPanel(textArea));
+         this.add(scrollPane);
+         newFrame.setLocationRelativeTo(null);
+         newFrame.setVisible(true);
+      }
       this.setLocationRelativeTo(null);
       this.setVisible(true);
    }
